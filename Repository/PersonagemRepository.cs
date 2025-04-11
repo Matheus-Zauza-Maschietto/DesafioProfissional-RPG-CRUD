@@ -14,12 +14,16 @@ public class PersonagemRepository
 
     public async Task<Personagem?> GetById(int id)
     {
-        return await _dbContext.Personagens.FirstOrDefaultAsync(p => p.Id == id);
+        return await _dbContext.Personagens
+            .Include(p => p.ItensMagicos)
+            .FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task<List<Personagem>> GetAll()
     {
-        return await _dbContext.Personagens.ToListAsync();
+        return await _dbContext.Personagens
+            .Include(p => p.ItensMagicos)
+            .ToListAsync();
     }
 
     public async Task<Personagem> Add(Personagem personagem)

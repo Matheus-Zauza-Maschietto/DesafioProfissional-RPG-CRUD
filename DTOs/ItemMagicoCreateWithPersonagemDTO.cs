@@ -2,7 +2,7 @@ using RpgApi.Models;
 
 namespace RpgApi.DTOs;
 
-public class ItemMagicoCreateDTO
+public class ItemMagicoCreateWithPersonagemDTO
 {
     public string Nome { get; set; }
     public string TipoItem { get; set; }

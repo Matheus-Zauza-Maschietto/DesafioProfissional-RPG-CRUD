@@ -12,14 +12,31 @@ public class ItemMagicoRepository
         _dbContext = dbContext;
     }
 
+    public async Task<ItemMagico?> GetAmuletoFromPersonagem(int personagemId)
+    {
+        return await _dbContext.ItensMagicos
+            .FirstOrDefaultAsync(x => x.Id == personagemId && x.TipoItem == TipoItem.Amuleto);
+    }
+    
     public async Task<ItemMagico?> GetById(int id)
     {
-        return await _dbContext.ItensMagicos.FirstOrDefaultAsync(p => p.Id == id);
+        return await _dbContext.ItensMagicos
+            .Include(p => p.Personagem)
+            .FirstOrDefaultAsync(p => p.Id == id);
+    }
+    
+    public async Task<ICollection<ItemMagico>> GetByPersonagem(Personagem personagem)
+    {
+        return await _dbContext.ItensMagicos
+            .Where(p => p.Personagem == personagem)
+            .ToListAsync();
     }
 
     public async Task<List<ItemMagico>> GetAll()
     {
-        return await _dbContext.ItensMagicos.ToListAsync();
+        return await _dbContext.ItensMagicos
+            .Include(p => p.Personagem)
+            .ToListAsync();
     }
 
     public async Task<ItemMagico> Add(ItemMagico personagem)

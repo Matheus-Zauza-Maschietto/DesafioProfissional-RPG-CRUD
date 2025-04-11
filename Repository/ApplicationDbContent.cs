@@ -12,6 +12,12 @@ public class ApplicationDbContext : DbContext
     public DbSet<Personagem> Personagens { get; set; }
     public DbSet<ItemMagico> ItensMagicos { get; set; }
 
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options)
+    {
+
+    }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Personagem>()
